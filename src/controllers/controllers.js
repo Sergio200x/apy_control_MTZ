@@ -3,35 +3,17 @@ import { querys } from '../database/querys.js'
 
 export const controller= {
 
-    Locales_sync:   async (req,res)=>
+        equipos:   async (req,res)=>
                     {
                         try {
                             const pool = await getConettion_empresas()
                             const result=await pool
                              .request()
-                             .query(querys.Locales_not_sync)
+                             .query(querys.equipos_prp)
                              res.json({
                                  info:{
                                       status:200,
-                                       url:"/synclocales"},
-                                       data:result.recordset})
-                            
-                            } catch (error) {
-                            console.log(error)
-                            }
-                      
-                    },
-    vista_semana_pasada:   async (req,res)=>
-                    {
-                        try {
-                            const pool = await getConettion_tickets()
-                            const result=await pool
-                             .request()
-                             .query(querys.tick_semana_pasada)
-                             res.json({
-                                 info:{
-                                      status:200,
-                                       url:"/semana_pasada"},
+                                       url:"/equipos"},
                                        data:result.recordset})
                             
                             } catch (error) {
@@ -39,6 +21,26 @@ export const controller= {
                             }
                       
                     }
+                      ,
+        locales:  async (req,res)=>
+        {
+            try {
+                const pool = await getConettion_empresas()
+                const result=await pool
+                 .request()
+                 .query(querys.locales_prp)
+                 res.json({
+                     info:{
+                          status:200,
+                           url:"/locales"},
+                           data:result.recordset})
+                
+                } catch (error) {
+                console.log(error)
+                }
+          
+        }
+                    
 
 
 

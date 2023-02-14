@@ -17,8 +17,7 @@ export async function getConettion_empresas(){
 
     try {
         const pool = await sql.connect(sqlConfig)
-        return pool;
-        
+        return pool;        
     } catch (error) {
         console.log(error)
     }

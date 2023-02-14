@@ -1,4 +1,5 @@
 export const querys ={
-
-    Locales_not_sync:"select sCod_Local as 'Codigo_de_local',horas from ( select  sCod_Local,DATEDIFF(hour,dFecha_Actividad,GETDATE()) horas   from Transfer_UDL  where   DATEDIFF(hour,dFecha_Actividad,GETDATE())>6 and DATEDIFF(hour,dFecha_Actividad,GETDATE())<100 and sCod_Local not in ('')) tabla"
+   
+    equipos_prp:"use MOSTAZA_ERP   select  LTRIM(RTRIM(v.local)) as 'Codigolocal',  IIF(v.PARAMETRO='VERSION','Profit',v.parametro) as 'Aplicacion',    rtrim(ltrim(v.valor)) as 'Nversion',  MAX(v.FECHATRANS) as 'FechaAct',   RTRIM(LTRIM(v.EQUIPO))AS EQUIPO  ,   RTRIM(LTRIM(v.caja))AS Caja  from hparamloc AS V   where v.PARAMETRO like 'version'   and v.FECHATRANS > getdate()-1  GROUP BY v.empresa, v.local, v.parametro, v.valor,v.EQUIPO,v.caja order by v.local ,V.EQUIPO",
+    locales_prp:"select distinct rtrim(ltrim(v.local)) as 'Codigolocal' , rtrim(ltrim(l.local_nombre)) as 'Nombrelocal' from hparamloc AS V   INNER JOIN [MOSTAZA_ERP].[dbo].[locales] AS L ON L.local_codigo = V.LOCAL     where v.PARAMETRO like 'version'   and v.FECHATRANS > getdate()-1  GROUP BY v.LOCAL,l.local_nombre "
 }

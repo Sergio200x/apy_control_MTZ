@@ -39,6 +39,24 @@ export const controller= {
                 console.log(error)
                 }
           
+        },
+versiones_prp:  async (req,res)=>
+        {
+            try {
+                const pool = await getConettion_empresas()
+                const result=await pool
+                 .request()
+                 .query(querys.versiones_prp)
+                 res.json({
+                     info:{
+                          status:200,
+                           url:"/versiones"},
+                           data:result.recordset})
+                
+                } catch (error) {
+                console.log(error)
+                }
+          
         }
                     
 
@@ -47,4 +65,4 @@ export const controller= {
 }
 
 
-/**HOLALALALALAL*/
+/***/

@@ -57,12 +57,29 @@ versiones_prp:  async (req,res)=>
                 console.log(error)
                 }
           
-        }
-                    
-
+        } ,
+        listado_Apps:  async (req,res)=>
+                {
+                    try {
+                        const pool = await getConettion_empresas()
+                        const result=await pool
+                         .request()
+                         .query(querys.listado_Apps)
+                         res.json({
+                             info:{
+                                  status:200,
+                                   url:"/listadoDeApps"},
+                                   data:result.recordset})
+                        
+                        } catch (error) {
+                        console.log(error)
+                        }
+                  
+                }
+                  
 
 
 }
 
 
-/***/
+/**listado_Apps*/

@@ -43,10 +43,11 @@ export const controller= {
 versiones_prp:  async (req,res)=>
         {
             try {
+                const parametro2 = req.query.parametro2; // Obtener el parámetro1 desde la consulta del componente de React  
+                
                 const pool = await getConettion_empresas()
-                const result=await pool
-                 .request()
-                 .query(querys.versiones_prp)
+                const result=await pool.request()
+                 .query(querys.versiones_prp.replace('@parametro2', parametro2));
                  res.json({
                      info:{
                           status:200,
@@ -58,18 +59,23 @@ versiones_prp:  async (req,res)=>
                 }
           
         } ,
-        listado_Apps:  async (req,res)=>
+        
+    Precios_arts:   async (req,res)=>
                 {
                     try {
-                        const pool = await getConettion_empresas()
-                        const result=await pool
-                         .request()
-                         .query(querys.listado_Apps)
+                                              
+                    const parametro = req.query.parametro; // Obtener el parámetro desde la consulta del componente de React
+                    const parametro1 = req.query.parametro1; // Obtener el parámetro1 desde la consulta del componente de React  
+                            
+                    const pool = await getConettion_empresas()
+                    const result=await pool.request()                                                      
+                    .query(querys.preciosyarts.replace('@parametro', parametro).replace('@parametro1', parametro1));                          
                          res.json({
                              info:{
                                   status:200,
-                                   url:"/listadoDeApps"},
+                                   url:"/preciosyarts"},
                                    data:result.recordset})
+                                   
                         
                         } catch (error) {
                         console.log(error)

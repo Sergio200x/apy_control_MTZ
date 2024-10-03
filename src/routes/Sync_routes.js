@@ -15,6 +15,8 @@ router.get('/hd_spaceprp',controller.HD_SPACE_PRP)
 router.get('/ventas_mes_corriente',controller.ventas_mes_corriente)
 router.get('/promos_prp',controller.promos_prp)
 router.get('/promos_frq',controller.promos_frq)
+router.post('/usuarios',controller.usuarios)
+router.get('/deli',controller.dashdeli)
 
 
 export default router

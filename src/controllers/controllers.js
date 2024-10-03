@@ -1,5 +1,7 @@
 import {getConettion_empresas_frq, getConettion_empresas_prp} from '../database/conexion_Empresas.js'
 import { querys } from '../database/querys.js'
+import axios from 'axios';
+
 
 export const controller= {
 
@@ -264,8 +266,99 @@ export const controller= {
                                     console.log(error)
                                     }
                               
+                            },
+                            usuarios: async (req, res) => {
+                              try {
+                                const { usuario, clave } = req.body;
+                                console.log('Iniciando procesamiento:', usuario);
+                            
+                                const pool = await getConettion_empresas_prp();
+                                console.log('Conexión a la base de datos establecida.');
+                            
+                                const sqlQuery = querys.usuarios.replace('@parametro', usuario);
+                                console.log('Query generado:', sqlQuery);
+                            
+                                const result = await pool.request()
+                                  .input('usuario', usuario)
+                                  .query(sqlQuery);                           
+                               
+                            
+                                const user = result.recordset[0];
+                            
+                                if (user) {
+                                                            
+                                  // Comparar la contraseña directamente sin bcrypt
+                                  const isMatch = (user.clave === clave);
+                                  console.log('Resultado de la comparación:', isMatch);
+                            
+                                  if (isMatch) {
+                                    res.json({
+                                      info: {
+                                        status: 200,
+                                        url: "/usuarios"
+                                      },
+                                      data: {
+                                        usuario: user.usuario
+                                      }
+                                    });
+                                  } else {
+                                    res.status(401).json({
+                                      info: {
+                                        status: 401,
+                                        url: "/usuarios"
+                                      },
+                                      message: 'Usuario o contraseña incorrectos'
+                                    });
+                                  }
+                                } else {
+                                  res.status(404).json({
+                                    info: {
+                                      status: 404,
+                                      url: "/usuarios"
+                                    },
+                                    message: 'Usuario no encontrado'
+                                  });
+                                }
+                              } catch (error) {
+                                console.error('Error en el servidor:', error.message);
+                                res.status(500).json({
+                                  info: {
+                                    status: 500,
+                                    url: "/usuarios"
+                                  },
+                                  message: 'Error en el servidor',
+                                  error: error.message
+                                });
+                              }
+                            },
+                           
+                        dashdeli :async (req, res) => {
+                                try {
+                                    // Hacer la solicitud al endpoint locales de URL_DELI
+                                    const urlDeli = `https://${process.env.URL_DELI}/locales`; // Asegúrate de usar https://
+                                    const response = await axios.get(urlDeli);
+                            
+                                    // Capturar la respuesta en un JSON
+                                    const localesData = response.data;
+                            
+                                    res.json({
+                                        info: {
+                                            status: 200,
+                                            url: "//deli"
+                                        },
+                                        locales: localesData
+                                    });
+                            
+                                } catch (error) {
+                                    console.error(error);
+                                    res.status(500).json({ message: "Internal server error" });
+                                }
                             }
-                  
+                            
+                            
+                            
+                            
+                            
 
 
 }

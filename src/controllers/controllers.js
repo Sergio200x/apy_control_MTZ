@@ -353,8 +353,43 @@ export const controller= {
                                     console.error(error);
                                     res.status(500).json({ message: "Internal server error" });
                                 }
-                            }
+                            },
+                            horariosDeli : async (req, res) => {
+                              try {
+                                // Hacer la solicitud de autenticación al endpoint URL_DELI_LOGIN
+                                const authUrl = `https://${process.env.URL_DELI_LOGIN}`;
+                                const authResponse = await axios.post(authUrl, {
+                                  usuario: "PRUEBA",
+                                  clave: "MOSTAZA123",
+                                  local: "23",
+                                  empresa: "1ASD"
+                                });
                             
+                                const { token } = authResponse.data;
+                            
+                                // Hacer la solicitud al endpoint locales de URL_DELI con el token de autenticación
+                                const urlDeli = `https://${process.env.URL_DELI}/locales/horarios`;
+                                const response = await axios.get(urlDeli, {
+                                  headers: {
+                                    Authorization: `Bearer ${token}`
+                                  }
+                                });
+                            
+                                // Capturar la respuesta en un JSON
+                                const localesData = response.data;
+                            
+                                res.json({
+                                  info: {
+                                    status: 200,
+                                    url: "//horariosDeli"
+                                  },
+                                  locales: localesData
+                                });
+                              } catch (error) {
+                                console.error(error);
+                                res.status(500).json({ message: "Internal server error" });
+                              }
+                            }
                             
                             
                             

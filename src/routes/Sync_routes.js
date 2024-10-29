@@ -17,6 +17,6 @@ router.get('/promos_prp',controller.promos_prp)
 router.get('/promos_frq',controller.promos_frq)
 router.post('/usuarios',controller.usuarios)
 router.get('/deli',controller.dashdeli)
-
+router.get('/horariosDeli',controller.horariosDeli)
 
 export default router
